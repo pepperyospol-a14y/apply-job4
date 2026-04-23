@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYR Recruitment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+            color: white; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 20px; border: 2px solid #f1c40f;
+            width: 90%; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo-img { width: 100%; max-width: 200px; border-radius: 15px; margin-bottom: 20px; }
+        .btn { padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; transition: 0.3s; margin-top: 10px; }
+        .btn-apply { background: #00bfff; color: white; }
+        .btn-submit { background: #f1c40f; color: black; width: 100%; }
+        .btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        #form-page, #result-page { display: none; text-align: left; }
+        
+        .form-card {
+            background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px;
+            margin-bottom: 15px; border-left: 5px solid #f1c40f;
+        }
+        label { color: #f1c40f; display: block; margin-bottom: 5px; font-size: 0.9rem; }
+        input, select, textarea {
+            width: 100%; padding: 10px; background: rgba(0,0,0,0.3);
+            border: 1px solid #444; border-radius: 5px; color: white; box-sizing: border-box;
+        }
+        /* ตกแต่งตำแหน่งที่เต็มแล้ว */
+        option:disabled { color: #ff4757; background: #222; }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.15); padding: 20px; border-radius: 15px;
+            border: 2px dashed #f1c40f; margin: 20px 0;
+        }
+        .highlight-text {
+            color: #ff4757; font-size: 1.5rem; font-weight: 600; text-align: center;
+            line-height: 1.2; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+        .data-item { margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .data-label { color: #f1c40f; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="container animate__animated animate__fadeIn">
+    
+    <div id="main-page" class="animate__animated animate__zoomIn">
+        <img src="hyr-logo.png" alt="Logo" class="logo-img animate__animated animate__pulse animate__infinite">
+        <h2 style="color:#f1c40f">HAT YAI RAILWAYS</h2>
+        <p>ยินดีต้อนรับสู่สมัครพนักงาน</p>
+        <button class="btn btn-apply" onclick="goToForm()">เริ่มการสมัคร</button>
+    </div>
+
+    <div id="form-page">
+        <h2 style="text-align:center; color:#f1c40f">แบบฟอร์มสมัครงาน</h2>
+        <form id="appForm">
+            <div class="form-card animate__animated animate__fadeInLeft">
+                <label>👤 ชื่อ-นามสกุล</label>
+                <input type="text" id="in-name" required>
+            </div>
+            <div class="form-card animate__animated animate__fadeInLeft">
+                <label>🎮 ชื่อดิสคอร์ด</label>
+                <input type="text" id="in-discord" required>
+            </div>
+            <div class="form-card animate__animated animate__fadeInLeft">
+                <label>🚉 ตำแหน่งที่สมัคร</label>
+                <select id="in-pos" required>
+                    <option value="">-- เลือกตำแหน่ง --</option>
+                    <option disabled>พนักงานขับรถไฟ (เต็ม 5/5)</option> 
+                    <option>นายสถานี</option>
+                    <option>พนักงานขายตั๋ว</option>
+                    <option>พนักงานคุมประแจ</option>
+                    <option>พนักงานไม้กั้น</option>
+                    <option>พนักงานรักษารถ</option>
+                    <option>พนักงานห้ามล้อ</option>
+                </select>
+            </div>
+            <div class="form-card animate__animated animate__fadeInLeft">
+                <label>📝 เหตุผลที่อยากสมัคร</label>
+                <textarea id="in-reason" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-submit animate__animated animate__bounceIn">ยืนยันข้อมูล</button>
+        </form>
+    </div>
+
+    <div id="result-page">
+        <div class="highlight-text animate__animated animate__flash animate__infinite">
+            ⚠️ กรุณาแคปรูปหน้านี้<br>ส่ง DM ไปยังผู้สร้างฟอร์ม
+        </div>
+        
+        <div class="result-box animate__animated animate__fadeInUp">
+            <h3 style="text-align:center; margin-top:0; color:#f1c40f;">ใบสรุปการสมัคร</h3>
+            <div class="data-item">
+                <div class="data-label">ชื่อ-นามสกุล:</div>
+                <div id="res-name"></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">ดิสคอร์ด:</div>
+                <div id="res-discord"></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">ตำแหน่ง:</div>
+                <div id="res-pos"></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">เหตุผล:</div>
+                <div id="res-reason"></div>
+            </div>
+            <div style="font-size: 0.7rem; color: #888; text-align: center; margin-top: 10px;">
+                ID: <span id="res-id"></span> | <span id="res-time"></span>
+            </div>
+        </div>
+
+        <button class="btn btn-apply" style="width:100%; background:#2ed573;" onclick="location.reload()">กลับหน้าหลัก / สมัครใหม่</button>
+    </div>
+
+</div>
+
+<script>
+    function goToForm() {
+        document.getElementById('main-page').classList.add('animate__fadeOut');
+        setTimeout(() => {
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('form-page').style.display = 'block';
+        }, 500);
+    }
+
+    document.getElementById('appForm').onsubmit = function(e) {
+        e.preventDefault();
+        
+        document.getElementById('res-name').innerText = document.getElementById('in-name').value;
+        document.getElementById('res-discord').innerText = document.getElementById('in-discord').value;
+        document.getElementById('res-pos').innerText = document.getElementById('in-pos').value;
+        document.getElementById('res-reason').innerText = document.getElementById('in-reason').value;
+        document.getElementById('res-id').innerText = Math.floor(Math.random() * 90000) + 10000;
+        document.getElementById('res-time').innerText = new Date().toLocaleString('th-TH');
+
+        document.getElementById('form-page').classList.add('animate__fadeOut');
+        setTimeout(() => {
+            document.getElementById('form-page').style.display = 'none';
+            document.getElementById('result-page').style.display = 'block';
+        }, 500);
+    };
+</script>
+
+</body>
+</html>
