@@ -15,13 +15,13 @@
         .container {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
             padding: 30px; border-radius: 20px; border: 2px solid #f1c40f;
-            width: 90%; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%; max-width: 500px; text-align: center; position: relative;
         }
         .logo-img { width: 100%; max-width: 200px; border-radius: 15px; margin-bottom: 20px; }
         .btn { padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; transition: 0.3s; margin-top: 10px; }
         .btn-apply { background: #00bfff; color: white; }
         .btn-submit { background: #f1c40f; color: black; width: 100%; }
-        .btn:hover { transform: scale(1.05); opacity: 0.9; }
+        .btn:disabled { background: #555 !important; cursor: not-allowed; opacity: 0.6; }
 
         #form-page, #result-page { display: none; text-align: left; }
         
@@ -34,19 +34,21 @@
             width: 100%; padding: 10px; background: rgba(0,0,0,0.3);
             border: 1px solid #444; border-radius: 5px; color: white; box-sizing: border-box;
         }
-        /* ตกแต่งตำแหน่งที่เต็มแล้ว */
-        option:disabled { color: #ff4757; background: #222; }
+
+        /* แถบเวลาปิดรับสมัครด้านล่าง */
+        .deadline-footer {
+            margin-top: 20px; padding: 10px; border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem; color: #ffbc00; font-weight: 400;
+        }
+        .closed-text { color: #ff4757; font-weight: 600; font-size: 1.2rem; display: none; }
 
         .result-box {
             background: rgba(255, 255, 255, 0.15); padding: 20px; border-radius: 15px;
             border: 2px dashed #f1c40f; margin: 20px 0;
         }
         .highlight-text {
-            color: #ff4757; font-size: 1.5rem; font-weight: 600; text-align: center;
-            line-height: 1.2; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+            color: #ff4757; font-size: 1.5rem; font-weight: 600; text-align: center; margin-bottom: 15px;
         }
-        .data-item { margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .data-label { color: #f1c40f; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -56,26 +58,21 @@
     <div id="main-page" class="animate__animated animate__zoomIn">
         <img src="hyr-logo.png" alt="Logo" class="logo-img animate__animated animate__pulse animate__infinite">
         <h2 style="color:#f1c40f">HAT YAI RAILWAYS</h2>
-        <p>ยินดีต้อนรับสู่สมัครพนักงาน</p>
-        <button class="btn btn-apply" onclick="goToForm()">เริ่มการสมัคร</button>
+        <p>เปิดรับสมัครพนักงาน</p>
+        <button id="start-btn" class="btn btn-apply" onclick="goToForm()">เริ่มการสมัคร</button>
+        <div id="main-closed-msg" class="closed-text animate__animated animate__shakeX">ขณะนี้ปิดรับสมัครแล้ว</div>
     </div>
 
     <div id="form-page">
         <h2 style="text-align:center; color:#f1c40f">แบบฟอร์มสมัครงาน</h2>
         <form id="appForm">
-            <div class="form-card animate__animated animate__fadeInLeft">
-                <label>👤 ชื่อ-นามสกุล</label>
-                <input type="text" id="in-name" required>
-            </div>
-            <div class="form-card animate__animated animate__fadeInLeft">
-                <label>🎮 ชื่อดิสคอร์ด</label>
-                <input type="text" id="in-discord" required>
-            </div>
-            <div class="form-card animate__animated animate__fadeInLeft">
+            <div class="form-card"><label>👤 ชื่อ-นามสกุล</label><input type="text" id="in-name" required></div>
+            <div class="form-card"><label>🎮 ชื่อดิสคอร์ด</label><input type="text" id="in-discord" required></div>
+            <div class="form-card">
                 <label>🚉 ตำแหน่งที่สมัคร</label>
                 <select id="in-pos" required>
                     <option value="">-- เลือกตำแหน่ง --</option>
-                    <option>พนักงานขับรถไฟ</option>
+                    <option>พนักงานขับรถไฟ</option> 
                     <option>นายสถานี</option>
                     <option>พนักงานขายตั๋ว</option>
                     <option>พนักงานคุมประแจ</option>
@@ -84,71 +81,77 @@
                     <option>พนักงานห้ามล้อ</option>
                 </select>
             </div>
-            <div class="form-card animate__animated animate__fadeInLeft">
-                <label>📝 เหตุผลที่อยากสมัคร</label>
-                <textarea id="in-reason" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-submit animate__animated animate__bounceIn">ยืนยันข้อมูล</button>
+            <div class="form-card"><label>📝 เหตุผลที่อยากสมัคร</label><textarea id="in-reason" rows="3" required></textarea></div>
+            <button type="submit" id="submit-btn" class="btn btn-submit">ยืนยันข้อมูล</button>
+            <div id="form-closed-msg" class="closed-text" style="text-align:center; margin-top:10px;">หมดเวลาส่งใบสมัครแล้ว</div>
         </form>
     </div>
 
     <div id="result-page">
         <div class="highlight-text animate__animated animate__flash animate__infinite">
-            ⚠️ กรุณาแคปรูปหน้านี้<br>ส่ง DM ไปยังผู้สร้างฟอร์ม
+            ⚠️ กรุณาแคปรูปหน้านี้ส่ง DM
         </div>
-        
-        <div class="result-box animate__animated animate__fadeInUp">
+        <div class="result-box">
             <h3 style="text-align:center; margin-top:0; color:#f1c40f;">ใบสรุปการสมัคร</h3>
-            <div class="data-item">
-                <div class="data-label">ชื่อ-นามสกุล:</div>
-                <div id="res-name"></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">ดิสคอร์ด:</div>
-                <div id="res-discord"></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">ตำแหน่ง:</div>
-                <div id="res-pos"></div>
-            </div>
-            <div class="data-item">
-                <div class="data-label">เหตุผล:</div>
-                <div id="res-reason"></div>
-            </div>
-            <div style="font-size: 0.7rem; color: #888; text-align: center; margin-top: 10px;">
-                ID: <span id="res-id"></span> | <span id="res-time"></span>
+            <div id="res-content">
+                <p>ชื่อ: <span id="res-name"></span></p>
+                <p>ดิสคอร์ด: <span id="res-discord"></span></p>
+                <p>ตำแหน่ง: <span id="res-pos"></span></p>
             </div>
         </div>
-
-        <button class="btn btn-apply" style="width:100%; background:#2ed573;" onclick="location.reload()">กลับหน้าหลัก / สมัครใหม่</button>
+        <button class="btn btn-apply" style="width:100%;" onclick="location.reload()">กลับหน้าหลัก</button>
     </div>
 
+    <div class="deadline-footer" id="footer-timer">
+        ⏳ ปิดรับสมัครวันที่: 14 พฤษภาคม 2026 เวลา 07:30 น.
+    </div>
 </div>
 
 <script>
+    // ตั้งค่าเวลาปิดรับสมัคร: 14 พฤษภาคม 2026 เวลา 07:30:00
+    const closeDate = new Date("May 14, 2026 07:30:00").getTime();
+
+    function checkDeadline() {
+        const now = new Date().getTime();
+        if (now > closeDate) {
+            // ถ้าเลยเวลาแล้ว
+            const startBtn = document.getElementById('start-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if(startBtn) startBtn.disabled = true;
+            if(submitBtn) submitBtn.disabled = true;
+            
+            document.getElementById('main-closed-msg').style.display = 'block';
+            document.getElementById('form-closed-msg').style.display = 'block';
+            document.getElementById('footer-timer').innerHTML = "❌ ปิดรับสมัครเรียบร้อยแล้ว";
+            document.getElementById('footer-timer').style.color = "#ff4757";
+            return true; // ปิดแล้ว
+        }
+        return false; // ยังเปิดอยู่
+    }
+
+    // ตรวจสอบทันทีที่เปิดหน้าเว็บ
+    setInterval(checkDeadline, 1000);
+
     function goToForm() {
-        document.getElementById('main-page').classList.add('animate__fadeOut');
-        setTimeout(() => {
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById('form-page').style.display = 'block';
-        }, 500);
+        if (checkDeadline()) return; // ถ้าปิดแล้วไม่ให้ไปต่อ
+        document.getElementById('main-page').style.display = 'none';
+        document.getElementById('form-page').style.display = 'block';
     }
 
     document.getElementById('appForm').onsubmit = function(e) {
         e.preventDefault();
+        if (checkDeadline()) {
+            alert("ขออภัย หมดเวลาส่งใบสมัครแล้ว");
+            return;
+        }
         
         document.getElementById('res-name').innerText = document.getElementById('in-name').value;
         document.getElementById('res-discord').innerText = document.getElementById('in-discord').value;
         document.getElementById('res-pos').innerText = document.getElementById('in-pos').value;
-        document.getElementById('res-reason').innerText = document.getElementById('in-reason').value;
-        document.getElementById('res-id').innerText = Math.floor(Math.random() * 90000) + 10000;
-        document.getElementById('res-time').innerText = new Date().toLocaleString('th-TH');
 
-        document.getElementById('form-page').classList.add('animate__fadeOut');
-        setTimeout(() => {
-            document.getElementById('form-page').style.display = 'none';
-            document.getElementById('result-page').style.display = 'block';
-        }, 500);
+        document.getElementById('form-page').style.display = 'none';
+        document.getElementById('result-page').style.display = 'block';
     };
 </script>
 
