@@ -22,20 +22,17 @@
 
         .container { width: 95%; max-width: 1000px; padding: 20px; }
 
-        /* หน้าหลัก */
-        .main-wrapper { display: flex; gap: 30px; align-items: stretch; }
-
         .card-box {
             background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
             padding: 40px; border-radius: 30px; border: var(--white-border);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* ซ่อนหน้าอื่นๆ ไว้ก่อน */
         .page-view { display: none; }
         .active-page { display: block; }
 
-        /* ส่วนฝั่งขวา (ปุ่มเมนู) */
+        .main-wrapper { display: flex; gap: 30px; align-items: stretch; }
+
         .right-menu {
             flex: 1; display: flex; flex-direction: column; gap: 15px; justify-content: center;
         }
@@ -51,7 +48,8 @@
         .btn-yellow { background: #ffbc00; color: black; }
         .btn-blue { background: #007bff; color: white; }
         .btn-apply { 
-            background: linear-gradient(45deg, #00e5ff, #007bff); 
+            /* เปลี่ยนเป็นสีเขียวไล่เฉดให้ดูมีมิติ */
+            background: linear-gradient(45deg, #2ecc71, #27ae60); 
             color: white; font-weight: 600; text-align: center; border: none;
         }
 
@@ -98,9 +96,9 @@
         <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
         <h2 style="color:#ff4757">📝 วิธีการสมัคร</h2>
         <div class="info-row" style="border-left-color:#ff4757">1. ใส่ชื่อ-นามสกุล ของท่านให้ถูกต้อง</div>
-        <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อผู้ใช้ดิสคอร์ด</div>
-        <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่ท่านต้องการ</div>
-        <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (แนะนำให้ใส่แบบมีสาระ)</div>
+        <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อดิสคอร์ดเพื่อการติดต่อกลับ</div>
+        <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่ท่านต้องการปฏิบัติหน้าที่</div>
+        <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (ยิ่งใส่เยอะและมีสาระ ยิ่งมีโอกาสผ่าน)</div>
         <div class="info-row" style="border-left-color:#ff4757">5. ตรวจสอบข้อมูลและกดยืนยัน</div>
         <div class="info-row" style="border-left-color:#ff4757">6. แคปรูปภาพสรุปผลส่ง DM ให้ผู้สร้างแบบฟอร์ม</div>
     </div>
@@ -111,7 +109,7 @@
         <div class="info-row" style="border-left-color:#ffbc00">1. ห้ามส่งใบสมัครซ้ำๆ หลายครั้ง</div>
         <div class="info-row" style="border-left-color:#ffbc00">2. ห้ามใช้ชื่อแฝง ชื่อกวน หรือข้อมูลเท็จ</div>
         <div class="info-row" style="border-left-color:#ffbc00">3. เหตุผลต้องมีสาระ ห้ามตอบเพียง "อยากเป็น" หรือ "ชอบ"</div>
-        <div class="info-row" style="border-left-color:#ffbc00">4. ต้องมีรูปแคปหน้าจอมายืนยัน หากไม่มีจะไม่รับผิดชอบใดๆทั้งสิ้น</div>
+        <div class="info-row" style="border-left-color:#ffbc00">4. ต้องมีรูปแคปหน้าจอมายืนยัน มิเช่นนั้นจะไม่พิจารณา</div>
     </div>
 
     <div id="page-roles" class="page-view card-box animate__animated">
@@ -140,7 +138,7 @@
                 </select>
             </div>
             <div style="margin-bottom:15px;"><label>📝 เหตุผลที่สมัคร (เน้นสาระ)</label><textarea id="in-reason" rows="3" required></textarea></div>
-            <button type="submit" id="submit-btn" class="menu-btn btn-apply" style="width:100%">ยืนยันข้อมูล</button>
+            <button type="submit" id="submit-btn" class="menu-btn btn-apply" style="width:100%">ส่งแบบฟอร์ม</button>
             <button type="button" onclick="changePage('page-main', 'back')" style="background:none; border:none; color:white; width:100%; margin-top:10px; cursor:pointer;">← กลับหน้าหลัก (ยกเลิก)</button>
         </form>
     </div>
@@ -151,9 +149,11 @@
             <p><strong>ชื่อ:</strong> <span id="res-name"></span></p>
             <p><strong>ดิสคอร์ด:</strong> <span id="res-discord"></span></p>
             <p><strong>ตำแหน่ง:</strong> <span id="res-pos"></span></p>
-            <p style="font-size:0.8rem; color:#aaa;">สมัครเมื่อ: <span id="res-time"></span></p>
+            <p><strong>เหตุผลที่สมัคร:</strong></p>
+            <div id="res-reason" style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; font-size:0.9rem; color:#00e5ff; white-space: pre-wrap;"></div>
+            <p style="font-size:0.8rem; color:#aaa; margin-top:15px;">สมัครเมื่อ: <span id="res-time"></span></p>
         </div>
-        <p style="text-align:center; color:#ff4757;">⚠️ กรุณาแคปรูปนี้ส่ง DM ให้ผู้สร้าง!</p>
+        <p style="text-align:center; color:#ff4757;">⚠️ กรุณาแคปรูปนี้ส่ง DM ให้ผู้สร้างแบบฟอร์ม</p>
         <button class="menu-btn btn-blue" style="width:100%" onclick="location.reload()">กลับหน้าหลัก</button>
     </div>
 
@@ -171,18 +171,15 @@
     setInterval(checkDeadline, 1000);
 
     function changePage(pageId, direction = 'forward') {
-        // ซ่อนทุกหน้า
         document.querySelectorAll('.page-view').forEach(p => {
             p.classList.remove('active-page', 'animate__fadeInRight', 'animate__fadeInLeft');
             p.style.display = 'none';
         });
 
-        // แสดงหน้าที่จะไป
         const nextPage = document.getElementById(pageId);
         nextPage.style.display = 'block';
         nextPage.classList.add('active-page');
         
-        // ใส่อนิเมชั่นตามทิศทาง
         if(direction === 'forward') {
             nextPage.classList.add('animate__fadeInRight');
         } else {
@@ -195,6 +192,7 @@
         document.getElementById('res-name').innerText = document.getElementById('in-name').value;
         document.getElementById('res-discord').innerText = document.getElementById('in-discord').value;
         document.getElementById('res-pos').innerText = document.getElementById('in-pos').value;
+        document.getElementById('res-reason').innerText = document.getElementById('in-reason').value;
         document.getElementById('res-time').innerText = new Date().toLocaleString('th-TH');
         changePage('page-result');
     };
