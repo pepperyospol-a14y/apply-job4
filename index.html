@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HYR Recruitment System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
             --blue-grad: linear-gradient(135deg, #001f3f 0%, #004080 50%, #00a3cc 100%);
             --white-border: 2px solid #ffffff;
+            --btn-green: linear-gradient(45deg, #2ecc71, #27ae60); /* ปุ่มสีเขียวตามที่ต้องการ */
         }
 
         body {
-            font-family: 'Kanit', sans-serif;
+            /* เปลี่ยนชื่อฟอนต์ที่นี่ */
+            font-family: 'Sarabun', sans-serif;
             background: var(--blue-grad);
             color: white; margin: 0; min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
@@ -41,6 +43,7 @@
             padding: 18px; border-radius: 15px; cursor: pointer; transition: 0.3s;
             border: 1px solid rgba(255,255,255,0.2); font-size: 1.1rem; text-align: left;
             text-decoration: none; display: block;
+            font-family: 'Sarabun', sans-serif;
         }
         .menu-btn:hover { transform: translateX(10px); filter: brightness(1.1); }
         
@@ -48,8 +51,7 @@
         .btn-yellow { background: #ffbc00; color: black; }
         .btn-blue { background: #007bff; color: white; }
         .btn-apply { 
-            /* เปลี่ยนเป็นสีเขียวไล่เฉดให้ดูมีมิติ */
-            background: linear-gradient(45deg, #2ecc71, #27ae60); 
+            background: var(--btn-green); 
             color: white; font-weight: 600; text-align: center; border: none;
         }
 
@@ -61,13 +63,14 @@
         .btn-back {
             background: none; border: 1px solid white; color: white;
             padding: 10px 20px; border-radius: 50px; cursor: pointer; margin-bottom: 20px;
-            transition: 0.3s;
+            transition: 0.3s; font-family: 'Sarabun', sans-serif;
         }
         .btn-back:hover { background: white; color: black; }
 
         input, select, textarea {
             width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
             border: 1px solid #ffffff44; border-radius: 10px; color: white; margin-top: 5px;
+            font-family: 'Sarabun', sans-serif;
         }
     </style>
 </head>
@@ -79,14 +82,14 @@
         <div class="main-wrapper">
             <div class="card-box" style="flex: 1.5; text-align: center;">
                 <img src="hyr-logo.png" alt="Logo" style="width:160px; border-radius:15px; margin-bottom:20px;" class="animate__animated animate__pulse animate__infinite">
-                <h1 style="margin:0;">HAT YAI RAILWAYS</h1>
+                <h1 style="margin:0; font-weight: 700;">HAT YAI RAILWAYS</h1>
                 <p style="color: #bdc3c7;">ยินดีต้อนรับสู่ระบบรับสมัครพนักงาน</p>
-                <div style="margin-top:20px; font-size:0.85rem; color:#ffbc00;">⏳ ปิดรับสมัคร: 14 พฤษภาคม 2026 (07:30 น.)</div>
+                <div style="margin-top:20px; font-size:0.9rem; color:#ffbc00;">⏳ ปิดรับสมัคร: 14 พฤษภาคม 2026 (07:30 น.)</div>
             </div>
             <div class="right-menu">
                 <div class="menu-btn btn-red" onclick="changePage('page-method')">📝 วิธีการสมัคร</div>
-                <div class="menu-btn btn-yellow" onclick="changePage('page-rules')">📜 กฏในการสมัคร</div>
-                <div class="menu-btn btn-blue" onclick="changePage('page-roles')">🚉 ข้อมูลตำแหน่งงาน</div>
+                <div class="menu-btn btn-yellow" onclick="changePage('page-rules')">📜 กฎในการสมัคร</div>
+                <div class="menu-btn btn-blue" onclick="changePage('page-roles')">🚉 ข้อมูลตำแหน่งพนักงาน</div>
                 <div class="menu-btn btn-apply animate__animated animate__pulse animate__infinite" onclick="changePage('page-form')">🚀 เริ่มการสมัครงาน</div>
             </div>
         </div>
@@ -94,18 +97,18 @@
 
     <div id="page-method" class="page-view card-box animate__animated">
         <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
-        <h2 style="color:#ff4757">📝 วิธีการสมัคร</h2>
-        <div class="info-row" style="border-left-color:#ff4757">1. ใส่ชื่อ-นามสกุล ของท่านให้ถูกต้อง</div>
-        <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อดิสคอร์ดเพื่อการติดต่อกลับ</div>
-        <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่ท่านต้องการปฏิบัติหน้าที่</div>
-        <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (ยิ่งใส่เยอะและมีสาระ ยิ่งมีโอกาสผ่าน)</div>
-        <div class="info-row" style="border-left-color:#ff4757">5. ตรวจสอบข้อมูลและกดยืนยัน</div>
+        <h2 style="color:#ff4757; font-weight: 700;">📝 วิธีการสมัคร</h2>
+        <div class="info-row" style="border-left-color:#ff4757">1. ใส่ชื่อ-นามสกุล</div>
+        <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อดิสคอร์ด</div>
+        <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่ท่านต้องการ</div>
+        <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (เหตุผลขอแบบมีสาระ)</div>
+        <div class="info-row" style="border-left-color:#ff4757">5. ตรวจสอบข้อมูลและกดส่งแบบฟอร์ม</div>
         <div class="info-row" style="border-left-color:#ff4757">6. แคปรูปภาพสรุปผลส่ง DM ให้ผู้สร้างแบบฟอร์ม</div>
     </div>
 
     <div id="page-rules" class="page-view card-box animate__animated">
         <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
-        <h2 style="color:#ffbc00">📜 กฏในการสมัคร</h2>
+        <h2 style="color:#ffbc00; font-weight: 700;">📜 กฎในการสมัคร</h2>
         <div class="info-row" style="border-left-color:#ffbc00">1. ห้ามส่งใบสมัครซ้ำๆ หลายครั้ง</div>
         <div class="info-row" style="border-left-color:#ffbc00">2. ห้ามใช้ชื่อแฝง ชื่อกวน หรือข้อมูลเท็จ</div>
         <div class="info-row" style="border-left-color:#ffbc00">3. เหตุผลต้องมีสาระ ห้ามตอบเพียง "อยากเป็น" หรือ "ชอบ"</div>
@@ -114,8 +117,8 @@
 
     <div id="page-roles" class="page-view card-box animate__animated">
         <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
-        <h2 style="color:#007bff">🚉 ข้อมูลแต่ละตำแหน่ง</h2>
-        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานขับรถไฟ:</strong> ขับขบวนรถตามตารางและรักษาความปลอดภัย</div>
+        <h2 style="color:#007bff; font-weight: 700;">🚉 แต่ละตำแหน่งทำหน้าที่อะไรบ้าง</h2>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานขับรถไฟ:</strong> ขับขบวนรถตามรางและรักษาความปลอดภัย</div>
         <div class="info-row" style="border-left-color:#007bff"><strong>นายสถานี:</strong> จัดการความเรียบร้อยและอำนวยความสะดวกในสถานี</div>
         <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานขายตั๋ว:</strong> จำหน่ายตั๋วและให้ข้อมูลการเดินทาง</div>
         <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานคุมประแจ:</strong> ควบคุมรางให้รถเข้า-ออกทางหลีกได้ถูกต้อง</div>
@@ -125,7 +128,7 @@
     </div>
 
     <div id="page-form" class="page-view card-box animate__animated">
-        <h2 style="text-align:center; color:#00e5ff;">แบบฟอร์มสมัครงาน</h2>
+        <h2 style="text-align:center; color:#00e5ff; font-weight: 700;">แบบฟอร์มสมัครงาน</h2>
         <form id="appForm">
             <div style="margin-bottom:15px;"><label>👤 ชื่อ-นามสกุล</label><input type="text" id="in-name" required></div>
             <div style="margin-bottom:15px;"><label>🎮 ชื่อดิสคอร์ด</label><input type="text" id="in-discord" required></div>
@@ -137,21 +140,21 @@
                     <option>พนักงานคุมประแจ</option><option>พนักงานไม้กั้น</option><option>พนักงานรักษารถ</option><option>พนักงานห้ามล้อ</option>
                 </select>
             </div>
-            <div style="margin-bottom:15px;"><label>📝 เหตุผลที่สมัคร (เน้นสาระ)</label><textarea id="in-reason" rows="3" required></textarea></div>
+            <div style="margin-bottom:15px;"><label>📝 เหตุผลที่สมัคร</label><textarea id="in-reason" rows="3" required></textarea></div>
             <button type="submit" id="submit-btn" class="menu-btn btn-apply" style="width:100%">ส่งแบบฟอร์ม</button>
-            <button type="button" onclick="changePage('page-main', 'back')" style="background:none; border:none; color:white; width:100%; margin-top:10px; cursor:pointer;">← กลับหน้าหลัก (ยกเลิก)</button>
+            <button type="button" onclick="changePage('page-main', 'back')" style="background:none; border:none; color:white; width:100%; margin-top:10px; cursor:pointer; font-family: 'Sarabun', sans-serif;">← กลับหน้าหลัก (ยกเลิก)</button>
         </form>
     </div>
 
     <div id="page-result" class="page-view card-box animate__animated">
-        <h2 style="text-align:center; color:#2ed573;">สมัครสำเร็จ!</h2>
+        <h2 style="text-align:center; color:#2ed573; font-weight: 700;">สมัครสำเร็จ!</h2>
         <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:20px; border:1px dashed white; margin-bottom:20px;">
             <p><strong>ชื่อ:</strong> <span id="res-name"></span></p>
             <p><strong>ดิสคอร์ด:</strong> <span id="res-discord"></span></p>
             <p><strong>ตำแหน่ง:</strong> <span id="res-pos"></span></p>
             <p><strong>เหตุผลที่สมัคร:</strong></p>
-            <div id="res-reason" style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; font-size:0.9rem; color:#00e5ff; white-space: pre-wrap;"></div>
-            <p style="font-size:0.8rem; color:#aaa; margin-top:15px;">สมัครเมื่อ: <span id="res-time"></span></p>
+            <div id="res-reason" style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; font-size:0.95rem; color:#00e5ff; white-space: pre-wrap;"></div>
+            <p style="font-size:0.85rem; color:#aaa; margin-top:15px;">สมัครเมื่อวันที่: <span id="res-time"></span></p>
         </div>
         <p style="text-align:center; color:#ff4757;">⚠️ กรุณาแคปรูปนี้ส่ง DM ให้ผู้สร้างแบบฟอร์ม</p>
         <button class="menu-btn btn-blue" style="width:100%" onclick="location.reload()">กลับหน้าหลัก</button>
