@@ -9,6 +9,7 @@
     <style>
         :root {
             --blue-grad: linear-gradient(135deg, #001f3f 0%, #004080 50%, #00a3cc 100%);
+            --white-border: 2px solid #ffffff;
         }
 
         body {
@@ -16,40 +17,33 @@
             background: var(--blue-grad);
             color: white; margin: 0; min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
+            overflow-x: hidden;
         }
 
-        .container {
-            width: 90%; max-width: 1000px; position: relative;
+        .container { width: 95%; max-width: 1000px; padding: 20px; }
+
+        /* หน้าหลัก */
+        .main-wrapper { display: flex; gap: 30px; align-items: stretch; }
+
+        .card-box {
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 30px; border: var(--white-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* กล่องหลักหน้าแรก */
-        .main-wrapper {
-            display: flex; gap: 30px;
-        }
+        /* ซ่อนหน้าอื่นๆ ไว้ก่อน */
+        .page-view { display: none; }
+        .active-page { display: block; }
 
-        .left-content {
-            flex: 1.5; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 30px; border: 2px solid white;
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
+        /* ส่วนฝั่งขวา (ปุ่มเมนู) */
         .right-menu {
             flex: 1; display: flex; flex-direction: column; gap: 15px; justify-content: center;
         }
 
-        /* หน้าฟอร์ม และ หน้าสรุปผล */
-        #form-page, #result-page {
-            display: none; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px);
-            padding: 30px; border-radius: 30px; border: 2px solid white;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .logo-img { width: 150px; border-radius: 15px; margin-bottom: 20px; }
-
-        /* สไตล์ปุ่ม */
         .menu-btn {
             padding: 18px; border-radius: 15px; cursor: pointer; transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.2); text-align: left; font-size: 1.1rem;
+            border: 1px solid rgba(255,255,255,0.2); font-size: 1.1rem; text-align: left;
+            text-decoration: none; display: block;
         }
         .menu-btn:hover { transform: translateX(10px); filter: brightness(1.1); }
         
@@ -61,30 +55,21 @@
             color: white; font-weight: 600; text-align: center; border: none;
         }
 
-        /* Modal / Popup */
-        .modal {
-            display: none; position: fixed; z-index: 100; left: 0; top: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: #002b55; margin: 5% auto; padding: 30px;
-            border: 2px solid white; width: 85%; max-width: 600px; border-radius: 20px; position: relative;
-        }
         .info-row {
-            background: rgba(255,255,255,0.05); padding: 12px; margin-bottom: 8px;
-            border-radius: 8px; border-left: 5px solid white; font-size: 0.95rem;
+            background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 10px;
+            border-radius: 12px; border-left: 6px solid white;
         }
 
-        /* ฟอร์ม */
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { color: #00e5ff; display: block; margin-bottom: 5px; }
+        .btn-back {
+            background: none; border: 1px solid white; color: white;
+            padding: 10px 20px; border-radius: 50px; cursor: pointer; margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .btn-back:hover { background: white; color: black; }
+
         input, select, textarea {
             width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
-            border: 1px solid #ffffff44; border-radius: 10px; color: white; box-sizing: border-box;
-        }
-
-        .deadline-footer {
-            margin-top: 20px; font-size: 0.8rem; color: #ffbc00; text-align: center;
+            border: 1px solid #ffffff44; border-radius: 10px; color: white; margin-top: 5px;
         }
     </style>
 </head>
@@ -92,30 +77,61 @@
 
 <div class="container">
     
-    <div id="main-view" class="main-wrapper animate__animated animate__fadeIn">
-        <div class="left-content">
-            <img src="hyr-logo.png" alt="Logo" class="logo-img animate__animated animate__pulse animate__infinite">
-            <h1 style="margin:0;">HAT YAI RAILWAYS</h1>
-            <p style="color: #bdc3c7;">ระบบรับสมัครพนักงานออนไลน์</p>
-            <div class="deadline-footer" id="footer-timer">
-                ⏳ ปิดรับสมัคร: 14 พฤษภาคม 2026 (07:30 น.)
+    <div id="page-main" class="page-view active-page animate__animated animate__fadeIn">
+        <div class="main-wrapper">
+            <div class="card-box" style="flex: 1.5; text-align: center;">
+                <img src="hyr-logo.png" alt="Logo" style="width:160px; border-radius:15px; margin-bottom:20px;" class="animate__animated animate__pulse animate__infinite">
+                <h1 style="margin:0;">HAT YAI RAILWAYS</h1>
+                <p style="color: #bdc3c7;">ยินดีต้อนรับสู่ระบบรับสมัครพนักงาน</p>
+                <div style="margin-top:20px; font-size:0.85rem; color:#ffbc00;">⏳ ปิดรับสมัคร: 14 พฤษภาคม 2026 (07:30 น.)</div>
             </div>
-        </div>
-
-        <div class="right-menu">
-            <div class="menu-btn btn-red" onclick="openModal('modal1')">📝 วิธีการสมัคร</div>
-            <div class="menu-btn btn-yellow" onclick="openModal('modal2')">📜 กฏในการสมัคร</div>
-            <div class="menu-btn btn-blue" onclick="openModal('modal3')">🚉 ข้อมูลตำแหน่งงาน</div>
-            <div class="menu-btn btn-apply animate__animated animate__pulse animate__infinite" onclick="showPage('form-page')">🚀 เริ่มการสมัครงาน</div>
+            <div class="right-menu">
+                <div class="menu-btn btn-red" onclick="changePage('page-method')">📝 วิธีการสมัคร</div>
+                <div class="menu-btn btn-yellow" onclick="changePage('page-rules')">📜 กฏในการสมัคร</div>
+                <div class="menu-btn btn-blue" onclick="changePage('page-roles')">🚉 ข้อมูลตำแหน่งงาน</div>
+                <div class="menu-btn btn-apply animate__animated animate__pulse animate__infinite" onclick="changePage('page-form')">🚀 เริ่มการสมัครงาน</div>
+            </div>
         </div>
     </div>
 
-    <div id="form-page" class="animate__animated">
+    <div id="page-method" class="page-view card-box animate__animated">
+        <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
+        <h2 style="color:#ff4757">📝 วิธีการสมัคร</h2>
+        <div class="info-row" style="border-left-color:#ff4757">1. ใส่ชื่อ-นามสกุล ของท่านให้ถูกต้อง</div>
+        <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อผู้ใช้ดิสคอร์ด</div>
+        <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่ท่านต้องการ</div>
+        <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (แนะนำให้ใส่แบบมีสาระ)</div>
+        <div class="info-row" style="border-left-color:#ff4757">5. ตรวจสอบข้อมูลและกดยืนยัน</div>
+        <div class="info-row" style="border-left-color:#ff4757">6. แคปรูปภาพสรุปผลส่ง DM ให้ผู้สร้างแบบฟอร์ม</div>
+    </div>
+
+    <div id="page-rules" class="page-view card-box animate__animated">
+        <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
+        <h2 style="color:#ffbc00">📜 กฏในการสมัคร</h2>
+        <div class="info-row" style="border-left-color:#ffbc00">1. ห้ามส่งใบสมัครซ้ำๆ หลายครั้ง</div>
+        <div class="info-row" style="border-left-color:#ffbc00">2. ห้ามใช้ชื่อแฝง ชื่อกวน หรือข้อมูลเท็จ</div>
+        <div class="info-row" style="border-left-color:#ffbc00">3. เหตุผลต้องมีสาระ ห้ามตอบเพียง "อยากเป็น" หรือ "ชอบ"</div>
+        <div class="info-row" style="border-left-color:#ffbc00">4. ต้องมีรูปแคปหน้าจอมายืนยัน หากไม่มีจะรับผิดชอบใดๆทั้งสิ้น</div>
+    </div>
+
+    <div id="page-roles" class="page-view card-box animate__animated">
+        <button class="btn-back" onclick="changePage('page-main', 'back')">← กลับหน้าหลัก</button>
+        <h2 style="color:#007bff">🚉 ข้อมูลแต่ละตำแหน่ง</h2>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานขับรถไฟ:</strong> ขับขบวนรถตามตารางและรักษาความปลอดภัย</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>นายสถานี:</strong> จัดการความเรียบร้อยและอำนวยความสะดวกในสถานี</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานขายตั๋ว:</strong> จำหน่ายตั๋วและให้ข้อมูลการเดินทาง</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานคุมประแจ:</strong> ควบคุมรางให้รถเข้า-ออกทางหลีกได้ถูกต้อง</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานไม้กั้น:</strong> ดูแลความปลอดภัยจุดตัดถนนกับทางรถไฟ</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานรักษารถ:</strong> ตรวจสอบตู้รถและความปลอดภัยระหว่างทาง</div>
+        <div class="info-row" style="border-left-color:#007bff"><strong>พนักงานห้ามล้อ:</strong> ช่วยหยุดรถในกรณีฉุกเฉินและตรวจสอบระบบเบรก</div>
+    </div>
+
+    <div id="page-form" class="page-view card-box animate__animated">
         <h2 style="text-align:center; color:#00e5ff;">แบบฟอร์มสมัครงาน</h2>
         <form id="appForm">
-            <div class="form-group"><label>👤 ชื่อ-นามสกุล</label><input type="text" id="in-name" required></div>
-            <div class="form-group"><label>🎮 ชื่อดิสคอร์ด</label><input type="text" id="in-discord" required></div>
-            <div class="form-group">
+            <div style="margin-bottom:15px;"><label>👤 ชื่อ-นามสกุล</label><input type="text" id="in-name" required></div>
+            <div style="margin-bottom:15px;"><label>🎮 ชื่อดิสคอร์ด</label><input type="text" id="in-discord" required></div>
+            <div style="margin-bottom:15px;">
                 <label>🚉 ตำแหน่งที่สมัคร</label>
                 <select id="in-pos" required>
                     <option value="">-- เลือกตำแหน่ง --</option>
@@ -123,80 +139,56 @@
                     <option>พนักงานคุมประแจ</option><option>พนักงานไม้กั้น</option><option>พนักงานรักษารถ</option><option>พนักงานห้ามล้อ</option>
                 </select>
             </div>
-            <div class="form-group"><label>📝 เหตุผลที่สมัคร (กรุณาใส่ให้มีสาระ)</label><textarea id="in-reason" rows="3" required></textarea></div>
+            <div style="margin-bottom:15px;"><label>📝 เหตุผลที่สมัคร (เน้นสาระ)</label><textarea id="in-reason" rows="3" required></textarea></div>
             <button type="submit" id="submit-btn" class="menu-btn btn-apply" style="width:100%">ยืนยันข้อมูล</button>
-            <button type="button" onclick="location.reload()" style="background:none; border:none; color:white; width:100%; margin-top:10px; cursor:pointer;">← ยกเลิก</button>
+            <button type="button" onclick="changePage('page-main', 'back')" style="background:none; border:none; color:white; width:100%; margin-top:10px; cursor:pointer;">← กลับหน้าหลัก (ยกเลิก)</button>
         </form>
     </div>
 
-    <div id="result-page" class="animate__animated">
-        <h2 style="text-align:center; color:#2ed573;">⚠️ สมัครสำเร็จ!</h2>
-        <p style="text-align:center;">กรุณาแคปรูปด้านล่างนี้ส่งให้ผู้สร้างแบบฟอร์ม</p>
-        <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:15px; border:1px dashed white;">
+    <div id="page-result" class="page-view card-box animate__animated">
+        <h2 style="text-align:center; color:#2ed573;">สมัครสำเร็จ!</h2>
+        <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:20px; border:1px dashed white; margin-bottom:20px;">
             <p><strong>ชื่อ:</strong> <span id="res-name"></span></p>
             <p><strong>ดิสคอร์ด:</strong> <span id="res-discord"></span></p>
             <p><strong>ตำแหน่ง:</strong> <span id="res-pos"></span></p>
-            <p style="font-size:0.8rem; color:#888;">เวลาสมัคร: <span id="res-time"></span></p>
+            <p style="font-size:0.8rem; color:#aaa;">สมัครเมื่อ: <span id="res-time"></span></p>
         </div>
-        <button class="menu-btn btn-blue" style="width:100%; margin-top:20px;" onclick="location.reload()">กลับหน้าหลัก</button>
+        <p style="text-align:center; color:#ff4757;">⚠️ กรุณาแคปรูปนี้ส่ง DM ให้ผู้สร้าง!</p>
+        <button class="menu-btn btn-blue" style="width:100%" onclick="location.reload()">กลับหน้าหลัก</button>
     </div>
 
 </div>
 
-<div id="modal1" class="modal"><div class="modal-content">
-    <span style="float:right; cursor:pointer;" onclick="closeModal('modal1')">✖</span>
-    <h2>วิธีการสมัคร</h2>
-    <div class="info-row" style="border-left-color:#ff4757">1. ใส่ชื่อ-นามสกุล ให้ถูกต้อง</div>
-    <div class="info-row" style="border-left-color:#ff4757">2. ใส่ชื่อดิสคอร์ดเพื่อการติดต่อ</div>
-    <div class="info-row" style="border-left-color:#ff4757">3. เลือกตำแหน่งที่อยากสมัคร</div>
-    <div class="info-row" style="border-left-color:#ff4757">4. ใส่เหตุผล (เน้นสาระ เยอะยิ่งดี)</div>
-    <div class="info-row" style="border-left-color:#ff4757">5. กดยืนยันข้อมูล</div>
-    <div class="info-row" style="border-left-color:#ff4757">6. แคปรูปส่ง DM ผู้สร้างแบบฟอร์ม</div>
-</div></div>
-
-<div id="modal2" class="modal"><div class="modal-content">
-    <span style="float:right; cursor:pointer;" onclick="closeModal('modal2')">✖</span>
-    <h2 style="color:#ffbc00">กฏในการสมัคร</h2>
-    <div class="info-row" style="border-left-color:#ffbc00">1. ห้ามสมัครซ้ำๆ หลายรอบ</div>
-    <div class="info-row" style="border-left-color:#ffbc00">2. ห้ามใช้ชื่อกวนๆ หรือไม่สุภาพ</div>
-    <div class="info-row" style="border-left-color:#ffbc00">3. เหตุผลห้ามบอกแค่ "ชอบครับ" ต้องมีสาระ</div>
-    <div class="info-row" style="border-left-color:#ffbc00">4. ต้องแคปรูปหลังสมัครเสร็จทุกครั้ง</div>
-</div></div>
-
-<div id="modal3" class="modal"><div class="modal-content" style="max-height:80vh; overflow-y:auto;">
-    <span style="float:right; cursor:pointer;" onclick="closeModal('modal3')">✖</span>
-    <h2 style="color:#007bff">หน้าที่แต่ละตำแหน่ง</h2>
-    <div class="info-row"><strong>พขร:</strong> ขับรถไฟตามเวลาและปลอดภัย</div>
-    <div class="info-row"><strong>นายสถานี:</strong> ดูแลความเรียบร้อยในสถานี</div>
-    <div class="info-row"><strong>พนักงานขายตั๋ว:</strong> บริการตั๋วและให้ข้อมูล</div>
-    <div class="info-row"><strong>พนักงานคุมประแจ:</strong> สับรางให้รถเข้า-ออกทางหลีก</div>
-    <div class="info-row"><strong>พนักงานไม้กั้น:</strong> ดูแลจุดตัดทางรถไฟ</div>
-    <div class="info-row"><strong>พนักงานรักษารถ:</strong> ตรวจความเรียบร้อยบนขบวน</div>
-    <div class="info-row"><strong>พนักงานห้ามล้อ:</strong> ช่วยเบรกและหยุดรถฉุกเฉิน</div>
-</div></div>
-
 <script>
-    // ตั้งเวลาปิด 14 พ.ค. 07:30
     const closeDate = new Date("May 14, 2026 07:30:00").getTime();
     
     function checkDeadline() {
         if (new Date().getTime() > closeDate) {
             const btn = document.querySelector('.btn-apply');
             if(btn) { btn.disabled = true; btn.innerText = "ปิดรับสมัครแล้ว"; btn.style.background = "#555"; }
-            document.getElementById('footer-timer').innerText = "❌ ปิดรับสมัครแล้ว";
         }
     }
     setInterval(checkDeadline, 1000);
 
-    function showPage(id) {
-        document.getElementById('main-view').style.display = 'none';
-        document.getElementById('form-page').style.display = 'none';
-        document.getElementById(id).style.display = 'block';
-        document.getElementById(id).classList.add('animate__fadeInRight');
-    }
+    function changePage(pageId, direction = 'forward') {
+        // ซ่อนทุกหน้า
+        document.querySelectorAll('.page-view').forEach(p => {
+            p.classList.remove('active-page', 'animate__fadeInRight', 'animate__fadeInLeft');
+            p.style.display = 'none';
+        });
 
-    function openModal(id) { document.getElementById(id).style.display = "block"; }
-    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+        // แสดงหน้าที่จะไป
+        const nextPage = document.getElementById(pageId);
+        nextPage.style.display = 'block';
+        nextPage.classList.add('active-page');
+        
+        // ใส่อนิเมชั่นตามทิศทาง
+        if(direction === 'forward') {
+            nextPage.classList.add('animate__fadeInRight');
+        } else {
+            nextPage.classList.add('animate__fadeInLeft');
+        }
+    }
 
     document.getElementById('appForm').onsubmit = function(e) {
         e.preventDefault();
@@ -204,7 +196,7 @@
         document.getElementById('res-discord').innerText = document.getElementById('in-discord').value;
         document.getElementById('res-pos').innerText = document.getElementById('in-pos').value;
         document.getElementById('res-time').innerText = new Date().toLocaleString('th-TH');
-        showPage('result-page');
+        changePage('page-result');
     };
 </script>
 </body>
